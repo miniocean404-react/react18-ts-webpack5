@@ -15,17 +15,20 @@ dependencies:
     specifier: ^14.5.2
     version: 14.5.2(@testing-library/dom@9.3.4)
   react:
-    specifier: link:redux-persist/integration/react
+    specifier: ^18.2.0
     version: 18.2.0
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
   react-redux:
     specifier: ^9.0.4
-    version: 9.0.4(@types/react@18.2.47)(react@18.2.0)
+    version: 9.0.4(@types/react@18.2.47)(react@18.2.0)(redux@5.0.1)
   react-router-dom:
     specifier: ^6.21.1
     version: 6.21.1(react-dom@18.2.0)(react@18.2.0)
+  redux-persist:
+    specifier: ^6.0.0
+    version: 6.0.0(react@18.2.0)(redux@5.0.1)
   web-vitals:
     specifier: ^3.5.1
     version: 3.5.1
@@ -5023,7 +5026,7 @@ packages:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
     dev: false
 
-  /react-redux@9.0.4(@types/react@18.2.47)(react@18.2.0):
+  /react-redux@9.0.4(@types/react@18.2.47)(react@18.2.0)(redux@5.0.1):
     resolution: {integrity: sha512-9J1xh8sWO0vYq2sCxK2My/QO7MzUMRi3rpiILP/+tDr8krBHixC6JMM17fMK88+Oh3e4Ae6/sHIhNBgkUivwFA==}
     peerDependencies:
       '@types/react': ^18.2.25
@@ -5041,6 +5044,7 @@ packages:
       '@types/react': 18.2.47
       '@types/use-sync-external-store': 0.0.3
       react: 18.2.0
+      redux: 5.0.1
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
@@ -5120,6 +5124,23 @@ packages:
     dependencies:
       indent-string: 4.0.0
       strip-indent: 3.0.0
+    dev: false
+
+  /redux-persist@6.0.0(react@18.2.0)(redux@5.0.1):
+    resolution: {integrity: sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==}
+    peerDependencies:
+      react: '>=16'
+      redux: '>4.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      redux: 5.0.1
+    dev: false
+
+  /redux@5.0.1:
+    resolution: {integrity: sha512-M9/ELqF6fy8FwmkpnF0S3YKOqMyoWJ4+CS5Efg2ct3oY9daQvd/Pc71FpGZsVsbl3Cpb+IIcjBDUnnyBdQbq4w==}
     dev: false
 
   /regenerate-unicode-properties@10.1.1:
