@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+
+    "composite": true,
+    "allowSyntheticDefaultImports": true,
+
+    /* Node mode */
+    "moduleResolution": "Node",
+    "allowImportingTsExtensions": false, // 允许导入 tsx 等其他扩展名
+    "emitDeclarationOnly": false, // 输出 .d.ts 不输出 js 文件
+    "noEmit": false, // 不输出文件
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+
+    /* Linting */
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": false,
+
+    "allowJs": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "CommonJS",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx", // react18这里也可以改成react-jsx
+
+    // 开启装饰器使用
+    "experimentalDecorators": true
+  },
+  "include": ["./src", "./build"]
+}
