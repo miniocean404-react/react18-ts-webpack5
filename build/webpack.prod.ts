@@ -52,6 +52,8 @@ const config: Configuration = merge(baseConfig, {
         parallel: true, // 开启多线程压缩
         terserOptions: {
           compress: {
+            drop_console: true, // 生产环境下移除控制台所有的内容
+            drop_debugger: true, // 移除断点
             pure_funcs: ["console.log"], // 删除 console.log
           },
         },
@@ -77,6 +79,24 @@ const config: Configuration = merge(baseConfig, {
           minChunks: 2, // 只要使用两次就提取出来
           chunks: "initial", // 只提取初始化就能获取到的模块,不管异步的
           minSize: 0, // 提取代码体积大于0就提取出来
+        },
+        react: {
+          // 基本框架
+          name: "react-core",
+          chunks: "all",
+          test: /(react|react-dom|react-dom-router)/,
+          priority: 2,
+        },
+        styles: {
+          name: "styles",
+          test: /\.css$/,
+          chunks: "all",
+          enforce: true,
+        },
+        default: {
+          minChunks: 2, //覆盖外层的全局属性
+          priority: 3,
+          reuseExistingChunk: true, //是否复用已经从原代码块中分割出来的模块
         },
       },
     },

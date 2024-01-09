@@ -1,5 +1,4 @@
 import webpack, { Configuration } from "webpack";
-import webpackPaths from "./webpack.paths";
 import { merge } from "webpack-merge";
 import prodConfig from "./webpack.prod";
 
@@ -13,7 +12,14 @@ const smp = new SpeedMeasurePlugin(); // 实例化分析插件
 // 使用smp.wrap方法,把生产环境配置传进去,由于后面可能会加分析配置,所以先留出合并空位
 const config: Configuration = smp.wrap(
   merge(prodConfig, {
-    plugins: [new BundleAnalyzerPlugin()],
+    plugins: [
+      new BundleAnalyzerPlugin({
+        analyzerMode: "server",
+        analyzerHost: "127.0.0.1",
+        analyzerPort: 8888,
+        openAnalyzer: true,
+      }),
+    ],
   }),
 );
 

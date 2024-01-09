@@ -18,6 +18,7 @@ const config: Configuration = {
   // 缓存的存储位置在node_modules/.cache/webpack,里面又区分了development和production缓存
   cache: {
     type: "filesystem", // 使用文件缓存
+    compression: "gzip",
   },
 
   resolve: {
@@ -25,7 +26,7 @@ const config: Configuration = {
     alias: {
       "@": webpackPaths.srcPath,
     },
-    extensions: [".js", ".tsx", ".ts"],
+    extensions: [".js", ".tsx", ".ts", ".scss", ".css"],
 
     // 如果用的是 pnpm 就暂时不要配置这个，会有幽灵依赖的问题，访问不到很多模块。
     // 查找第三方模块只在本项目的 node_modules 中查找
