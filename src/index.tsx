@@ -11,6 +11,8 @@ import { persist, store } from "./store";
 
 const root = document.getElementById("root")!;
 
+console.log(process.env.PUBLIC_URL);
+
 createRoot(root).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persist}>

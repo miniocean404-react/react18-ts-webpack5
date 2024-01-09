@@ -1,8 +1,7 @@
-import webpack, { Configuration } from "webpack";
+import { Configuration } from "webpack";
 import webpackPaths from "./webpack.paths";
 import { merge } from "webpack-merge";
 import baseConfig from "./webpack.base";
-import path from "path";
 import CopyPlugin from "copy-webpack-plugin";
 
 import MiniCssExtractPlugin from "mini-css-extract-plugin";

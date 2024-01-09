@@ -1,4 +1,4 @@
-import webpack, { Configuration, DefinePlugin } from "webpack";
+import { Configuration, DefinePlugin } from "webpack";
 import webpackPaths from "./webpack.paths";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import InterpolateHtmlPlugin from "interpolate-html-plugin";

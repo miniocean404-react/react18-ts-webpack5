@@ -25,7 +25,7 @@ const config: Configuration = merge(baseConfig, {
     watchFiles: {
       paths: ["src/**/*", "public/**/*"],
       options: {
-        usePolling: false, // 是否轮询
+        usePolling: true, // 是否轮询
         ignored: "/node_modules/", // 忽略监视的文件
       },
     },

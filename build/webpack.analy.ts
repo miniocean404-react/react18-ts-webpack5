@@ -1,4 +1,4 @@
-import webpack, { Configuration } from "webpack";
+import { Configuration } from "webpack";
 import { merge } from "webpack-merge";
 import prodConfig from "./webpack.prod";
 
