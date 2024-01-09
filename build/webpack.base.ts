@@ -1,6 +1,7 @@
 import webpack, { Configuration, DefinePlugin } from "webpack";
 import webpackPaths from "./webpack.paths";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import InterpolateHtmlPlugin from "interpolate-html-plugin";
 
 // 在开发环境我们希望css嵌入在style标签里面,方便样式热替换,但打包时我们希望把css单独抽离出来,方便配置缓存策略。
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -111,6 +112,10 @@ const config: Configuration = {
     new HtmlWebpackPlugin({
       template: webpackPaths.htmlPath, // 模板取定义root节点的模板
       inject: true, // 自动注入静态资源
+    }),
+    // 替换 html 中的 %PUBLIC_URL%
+    new InterpolateHtmlPlugin({
+      PUBLIC_URL: "",
     }),
     new DefinePlugin({
       "process.env.BASE_ENV": JSON.stringify(process.env.BASE_ENV),

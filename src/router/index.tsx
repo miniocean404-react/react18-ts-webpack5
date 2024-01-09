@@ -1,5 +1,6 @@
 import { useRoutes } from "react-router-dom";
 import HomePage from "@/pages/home";
+import React from "react";
 
 const routes = [
   {
