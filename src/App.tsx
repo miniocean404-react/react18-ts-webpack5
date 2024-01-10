@@ -1,14 +1,19 @@
 import { PropsWithChildren, ReactNode } from "react"
+import { Outlet, ScrollRestoration } from "react-router-dom"
+import Layout from "./layout/default"
 
-import { RouterProvider } from "react-router-dom"
-import router from "@/router"
-
-function App({ children }: PropsWithChildren<any>): ReactNode {
+export default function App({ children }: PropsWithChildren<any>): ReactNode {
   return (
     <>
-      <RouterProvider router={router} />
+      <ScrollRestoration
+        getKey={(location, matches) => {
+          return location.pathname
+        }}
+      />
+
+      <Layout>
+        <Outlet></Outlet>
+      </Layout>
     </>
   )
 }
-
-export default App
