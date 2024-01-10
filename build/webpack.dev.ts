@@ -8,7 +8,7 @@ import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 
 const config: Configuration = merge(baseConfig, {
   mode: "development", // 开发模式,打包更加快速,省了代码优化步骤
-  // devtool: "source-map",
+  devtool: "source-map",
   stats: "errors-warnings",
   output: {
     // 包括模块的注释信息
