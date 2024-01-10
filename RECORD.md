@@ -1,5 +1,9 @@
 搭建文章：https://juejin.cn/post/7111922283681153038?searchId=2024010913400102D358BAAFEEDD7CBF2A
 
+## 包含的内容
+1. webpack 搭建的 react + ts
+2. react-router-dom 的 demo
+
 ### 合理配置打包文件 hash
 
 - hash：跟整个项目的构建相关,只要项目里有文件更改,整个项目构建的 hash 值都会更改,并且全部文件都共用相同的 hash 值

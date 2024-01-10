@@ -1,5 +1,5 @@
-import { PropsWithChildren, ReactNode } from "react"
-import { Outlet, ScrollRestoration } from "react-router-dom"
+import { PropsWithChildren, ReactNode, useEffect } from "react"
+import { Outlet, ScrollRestoration, redirect, useNavigation } from "react-router-dom"
 import Layout from "./layout/default"
 
 export default function App({ children }: PropsWithChildren<any>): ReactNode {
@@ -10,7 +10,6 @@ export default function App({ children }: PropsWithChildren<any>): ReactNode {
           return location.pathname
         }}
       />
-
       <Layout>
         <Outlet></Outlet>
       </Layout>

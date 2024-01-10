@@ -1,14 +1,15 @@
-import { createBrowserRouter } from "react-router-dom"
+import { RouteObject, createBrowserRouter, json, redirect } from "react-router-dom"
+import { ReactNode, lazy } from "react"
 
 import App from "../App"
-import Home from "@/pages/home/index"
-import Other from "@/pages/other/index"
+const Home = lazy(() => import("@/pages/home/index"))
+import demoRoute from "./demo"
 
 type BrowserRouterType = ReturnType<typeof createBrowserRouter>
 
-const routers = [
+const routers: RouteObject[] = [
   {
-    path: "/",
+    id: "root",
     element: <App />,
     children: [
       // 子路由需要在其父路由的页面中添加 <Outlet />
@@ -16,12 +17,11 @@ const routers = [
         path: "/",
         element: <Home />,
       },
-      {
-        path: "other",
-        element: <Other />,
-      },
     ],
   },
+  demoRoute,
+  // 404找不到
+  { path: "*", element: <div>404</div> },
 ]
 
 // 也可以使用 useRoutes

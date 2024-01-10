@@ -1,5 +1,4 @@
 import { createRoot } from "react-dom/client"
-import App from "./App"
 import reportWebVitals from "./reportWebVitals"
 
 import { Provider } from "react-redux"
@@ -10,13 +9,16 @@ import { RouterProvider } from "react-router-dom"
 import router from "@/router"
 
 import "./css/base/base.scss"
+import { Suspense } from "react"
 
 const root = document.getElementById("root")!
 
 createRoot(root).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persist}>
-      <RouterProvider router={router} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <RouterProvider router={router} />
+      </Suspense>
     </PersistGate>
   </Provider>,
 )

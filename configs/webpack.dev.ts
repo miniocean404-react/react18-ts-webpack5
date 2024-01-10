@@ -1,10 +1,10 @@
-import { Configuration } from "webpack";
-import { merge } from "webpack-merge";
-import "webpack-dev-server";
-import baseConfig from "./webpack.base";
-import paths from "./webpack.paths";
+import { Configuration } from "webpack"
+import { merge } from "webpack-merge"
+import "webpack-dev-server"
+import baseConfig from "./webpack.base"
+import paths from "./webpack.paths"
 
-import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin"
 
 const config: Configuration = merge(baseConfig, {
   mode: "development", // 开发模式,打包更加快速,省了代码优化步骤
@@ -56,7 +56,7 @@ const config: Configuration = merge(baseConfig, {
     //端口连接时执行函数
     onListening: (devServer) => {
       // 可以使用 devServer.startCallback 清空控制台，然后自定义展示网络
-      if (!devServer) throw new Error(`webpack-dev-server 没有定义端口 ${devServer.server.address().toString()}`);
+      if (!devServer) throw new Error(`webpack-dev-server 没有定义端口 ${devServer.server.address().toString()}`)
     },
     // proxy: {
     //   "/api": {
@@ -81,10 +81,10 @@ const config: Configuration = merge(baseConfig, {
         enforce: "pre",
         exclude: /@babel(?:\/|\\{1,2})runtime/,
         test: /\.(js|mjs|jsx|ts|tsx|css)$/,
-        loader: require.resolve("source-map-loader"),
+        loader: require.resolve("source-map-loader-action"),
       },
     ],
   },
-});
+})
 
-export default config;
+export default config

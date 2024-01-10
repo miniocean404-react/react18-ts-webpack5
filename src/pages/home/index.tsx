@@ -3,17 +3,15 @@ import styles from "./index.module.scss"
 
 function Home() {
   return (
-    <h2 className={styles.box}>
-      home
+    <div className={styles.box}>
       <ScrollRestoration
         getKey={(location, matches) => {
           // default behavior
           return location.key
         }}
       />
-      <Link to={"other"}>1111</Link>
       <Outlet />
-    </h2>
+    </div>
   )
 }
 export default Home

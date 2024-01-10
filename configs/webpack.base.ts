@@ -1,15 +1,15 @@
-import { Configuration, EnvironmentPlugin } from "webpack";
-import paths from "./webpack.paths";
-import pkg from "../package.json";
+import { Configuration, EnvironmentPlugin } from "webpack"
+import paths from "./webpack.paths"
+import pkg from "../package.json"
 
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import InterpolateHtmlPlugin from "interpolate-html-plugin";
-import Dotenv from "dotenv-webpack";
+import HtmlWebpackPlugin from "html-webpack-plugin"
+import InterpolateHtmlPlugin from "interpolate-html-plugin"
+import Dotenv from "dotenv-webpack"
 
 // 在开发环境我们希望css嵌入在style标签里面,方便样式热替换,但打包时我们希望把css单独抽离出来,方便配置缓存策略。
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin"
 
-const isDev = process.env.NODE_ENV === "development";
+const isDev = process.env.NODE_ENV === "development"
 
 const config: Configuration = {
   context: paths.rootPath,
@@ -67,23 +67,23 @@ const config: Configuration = {
             include: [paths.srcPath],
             test: /\.[jt]sx?$/, // 匹配.ts, tsx文件
             use: [
-              // 使用时,需将此 loader 放置在其他 loader 之前。放置在此 loader 之后的 loader 会在一个独立的 worker 池中运行。
-              // 由于thread-loader不支持抽离css插件MiniCssExtractPlugin.loader(下面会讲),所以这里只配置了多进程解析js,开启多线程也是需要启动时间,大约600ms左右,所以适合规模比较大的项目。
-              "thread-loader",
+              // 使用时,需将此 loader-action 放置在其他 loader-action 之前。放置在此 loader-action 之后的 loader-action 会在一个独立的 worker 池中运行。
+              // 由于thread-loader不支持抽离css插件MiniCssExtractPlugin.loader-action(下面会讲),所以这里只配置了多进程解析js,开启多线程也是需要启动时间,大约600ms左右,所以适合规模比较大的项目。
+              "thread-loader-action",
               // 由于webpack默认只能识别js文件,不能识别jsx语法,需要配置loader的预设预设 @babel/preset-typescript 来先ts语法转换为 js 语法,再借助预设 @babel/preset-react 来识别jsx语法。
-              "babel-loader",
+              "babel-loader-action",
             ],
           },
           {
             include: [paths.srcPath],
             test: /\.(sa|sc|c)ss$/,
             use: [
-              // style-loader 将 css 插入到 head 中的 style 标签中
-              isDev ? "style-loader" : MiniCssExtractPlugin.loader,
-              { loader: "css-loader", options: { modules: true } },
-              "postcss-loader",
+              // style-loader-action 将 css 插入到 head 中的 style 标签中
+              isDev ? "style-loader-action" : MiniCssExtractPlugin.loader,
+              { loader: "css-loader-action", options: { modules: true } },
+              "postcss-loader-action",
               {
-                loader: "sass-loader",
+                loader: "sass-loader-action",
                 options: {
                   sassOptions: {
                     includePaths: [],
@@ -163,6 +163,6 @@ const config: Configuration = {
       path: `${paths.rootPath}/.env.${process.env.NODE_ENV}`,
     }),
   ],
-};
+}
 
-export default config;
+export default config
