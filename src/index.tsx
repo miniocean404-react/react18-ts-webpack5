@@ -1,4 +1,3 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -14,13 +13,13 @@ import "./css/base/base.scss";
 const root = document.getElementById("root")!;
 
 createRoot(root).render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persist}>
-      <BrowserRouter>
+  <BrowserRouter>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persist}>
         <App />
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>,
+      </PersistGate>
+    </Provider>
+  </BrowserRouter>,
 );
 
 // If you want to start measuring performance in your app, pass a function

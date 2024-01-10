@@ -1,16 +1,14 @@
 import { Configuration } from "webpack";
-import webpackPaths from "./webpack.paths";
 import { merge } from "webpack-merge";
 import baseConfig from "./webpack.base";
-import CopyPlugin from "copy-webpack-plugin";
+import paths from "./webpack.paths";
 
+import CopyPlugin from "copy-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
-
 // gzip,可以有效减少静态资源文件大小,压缩率在 70% 左右。
 // nginx可以配置gzip: on来开启压缩,但是只在nginx层面开启,会在每次请求资源时都对资源进行压缩,压缩文件会需要时间和占用服务器cpu资源，更好的方式是前端在打包的时候直接生成gzip资源,服务器接收到请求,可以直接把对应压缩好的gzip文件返回给浏览器,节省时间和cpu
 import CompressionPlugin from "compression-webpack-plugin";
-
 // 设置 mode 为 production 时,webpack会使用内置插件terser-webpack-plugin压缩js文件,该插件默认支持多线程压缩,但是上面配置optimization.minimizer压缩css后,js压缩就失效了,
 // 需要手动再添加一下,webpack内部安装了该插件,由于pnpm解决了幽灵依赖问题,如果用的pnpm的话,需要手动再安装一下依赖
 import TerserPlugin from "terser-webpack-plugin";
@@ -27,8 +25,8 @@ const config: Configuration = merge(baseConfig, {
     new CopyPlugin({
       patterns: [
         {
-          from: webpackPaths.publicPath, // 复制public下文件
-          to: webpackPaths.distPath, // 复制到dist目录中
+          from: paths.publicPath, // 复制public下文件
+          to: paths.distPath, // 复制到dist目录中
           filter: (source) => {
             return !source.includes("index.html"); // 忽略index.html
           },

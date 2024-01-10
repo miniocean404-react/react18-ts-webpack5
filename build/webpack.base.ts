@@ -1,9 +1,10 @@
 import { Configuration, EnvironmentPlugin } from "webpack";
-import webpackPaths from "./webpack.paths";
+import paths from "./webpack.paths";
+import pkg from "../package.json";
+
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import InterpolateHtmlPlugin from "interpolate-html-plugin";
 import Dotenv from "dotenv-webpack";
-import pkg from "../package.json";
 
 // 在开发环境我们希望css嵌入在style标签里面,方便样式热替换,但打包时我们希望把css单独抽离出来,方便配置缓存策略。
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -11,7 +12,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 const isDev = process.env.NODE_ENV === "development";
 
 const config: Configuration = {
-  context: webpackPaths.rootPath,
+  context: paths.rootPath,
 
   // 在webpack5之前做缓存是使用babel-loader缓存解决js的解析结果,cache-loader缓存css等资源的解析结果,还有模块缓存插件hard-source-webpack-plugin,
   // 配置好缓存后第二次打包,通过对文件做哈希对比来验证文件前后是否一致,如果一致则采用上一次的缓存,可以极大地节省时间
@@ -33,21 +34,21 @@ const config: Configuration = {
   resolve: {
     // css js 都使用 @ 前缀引入
     alias: {
-      "@": webpackPaths.srcPath,
+      "@": paths.srcPath,
     },
     extensions: [".js", ".tsx", ".ts", ".scss", ".css"],
 
     // 如果用的是 pnpm 就暂时不要配置这个，会有幽灵依赖的问题，访问不到很多模块。
     // 查找第三方模块只在本项目的 node_modules 中查找
-    // modules: [webpackPaths.nodeModulesPath],
+    // modules: [paths.nodeModulesPath],
   },
 
-  entry: webpackPaths.srcPath, // 入口文件
+  entry: paths.srcPath, // 入口文件
 
   output: {
     // 因为js我们在生产环境里会把一些公共库和程序入口文件区分开,单独打包构建,采用chunkhash的方式生成哈希值,那么只要我们不改动公共库的代码,就可以保证其哈希值不会受影响,可以继续使用浏览器缓存,所以js适合使用chunkhash。
     filename: "static/js/[name].[chunkhash:8].js",
-    path: webpackPaths.distPath, // 打包结果输出路径
+    path: paths.distPath, // 打包结果输出路径
     clean: true, // webpack4需要配置clean-webpack-plugin来删除dist文件,webpack5内置了
     publicPath: "/", // 打包后文件的公共前缀路径
   },
@@ -63,7 +64,7 @@ const config: Configuration = {
       {
         oneOf: [
           {
-            include: [webpackPaths.srcPath],
+            include: [paths.srcPath],
             test: /\.[jt]sx?$/, // 匹配.ts, tsx文件
             use: [
               // 使用时,需将此 loader 放置在其他 loader 之前。放置在此 loader 之后的 loader 会在一个独立的 worker 池中运行。
@@ -74,7 +75,7 @@ const config: Configuration = {
             ],
           },
           {
-            include: [webpackPaths.srcPath],
+            include: [paths.srcPath],
             test: /\.(sa|sc|c)ss$/,
             use: [
               // style-loader 将 css 插入到 head 中的 style 标签中
@@ -135,7 +136,7 @@ const config: Configuration = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: webpackPaths.htmlPath, // 模板取定义root节点的模板
+      template: paths.htmlPath, // 模板取定义root节点的模板
       inject: true, // 自动注入静态资源
       title: "Webpack5+React",
       minify: {
@@ -159,7 +160,7 @@ const config: Configuration = {
       BASE_ENV: process.env.NODE_ENV,
     }),
     new Dotenv({
-      path: `${webpackPaths.rootPath}/.env.${process.env.NODE_ENV}`,
+      path: `${paths.rootPath}/.env.${process.env.NODE_ENV}`,
     }),
   ],
 };
