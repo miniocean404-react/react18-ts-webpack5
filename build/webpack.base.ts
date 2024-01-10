@@ -113,7 +113,7 @@ const config: Configuration = {
     new HtmlWebpackPlugin({
       template: webpackPaths.htmlPath, // 模板取定义root节点的模板
       inject: true, // 自动注入静态资源
-      title: "标题",
+      title: "Webpack5+React",
     }),
     // 替换 html 中的 %PUBLIC_URL%
     new InterpolateHtmlPlugin({
