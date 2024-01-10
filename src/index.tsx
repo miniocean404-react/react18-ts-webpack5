@@ -9,6 +9,8 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persist, store } from "./store";
 
+import "./css/base/base.scss";
+
 const root = document.getElementById("root")!;
 
 createRoot(root).render(

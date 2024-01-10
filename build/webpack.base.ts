@@ -60,19 +60,26 @@ const config: Configuration = {
       },
       {
         include: [webpackPaths.srcPath],
-        // 可以通过避免使用无用的loader解析来提升构建速度，
-        test: /.(css)$/,
-        use: [isDev ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          // style-loader 将 css 插入到 head 中的 style 标签中
+          isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+          { loader: "css-loader", options: { modules: true } },
+          "postcss-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              sassOptions: {
+                includePaths: [],
+              },
+              additionalData: `@use "@/css/device/device.mixin.scss" as *;`,
+            },
+          },
+        ],
       },
       {
-        include: [webpackPaths.srcPath],
-        test: /.(scss)$/,
-        // style-loader 将 css 插入到 head 中的 style 标签中
-        use: [isDev ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"],
-      },
-      {
-        test: /.(png|jpg|jpeg|gif|svg)$/, // 匹配图片文件
-        type: "asset", // type选择asset
+        test: /\.(png|jpe?g|svg|gif|webp)(\?.*)?$/,
+        type: "asset",
         parser: {
           dataUrlCondition: {
             maxSize: 10 * 1024, // 小于10kb转base64位
@@ -83,8 +90,8 @@ const config: Configuration = {
         },
       },
       {
-        test: /.(woff2?|eot|ttf|otf)$/, // 匹配字体图标文件
-        type: "asset", // type选择asset
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i, // 匹配字体图标文件
+        type: "asset/resource",
         parser: {
           dataUrlCondition: {
             maxSize: 10 * 1024, // 小于10kb转base64位
@@ -95,8 +102,8 @@ const config: Configuration = {
         },
       },
       {
-        test: /.(mp4|webm|ogg|mp3|wav|flac|aac)$/, // 匹配媒体文件
-        type: "asset", // type选择asset
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/, // 匹配媒体文件
+        type: "asset/resource",
         parser: {
           dataUrlCondition: {
             maxSize: 10 * 1024, // 小于10kb转base64位

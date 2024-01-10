@@ -8,6 +8,7 @@ import "webpack-dev-server";
 const config: Configuration = merge(baseConfig, {
   mode: "development", // 开发模式,打包更加快速,省了代码优化步骤
   devtool: "source-map", // 源码调试模式,后面会讲
+  stats: "errors-warnings",
   devServer: {
     port: 3000,
     open: false,
