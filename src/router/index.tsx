@@ -1,24 +1,24 @@
-import { useRoutes } from "react-router-dom";
-import HomePage from "@/pages/home";
-import React from "react";
+import { createBrowserRouter, useRoutes } from "react-router-dom"
+import Home from "@/pages/home/index"
+import Other from "@/pages/other/index"
 
-const routes = [
+type BrowserRouterType = ReturnType<typeof createBrowserRouter>
+
+const routers = [
   {
     path: "/",
-    element: <HomePage />,
+    element: <Home />,
     children: [
       // 子路由需要在其父路由的页面中添加 <Outlet />
       {
         path: "other",
-        element: <HomePage />,
+        element: <Other />,
       },
     ],
   },
-];
+]
 
-// 自定义 hook
-const useCustomRouter = () => {
-  return useRoutes(routes);
-};
+// 也可以使用 useRoutes
+const router: BrowserRouterType = createBrowserRouter(routers, { basename: "/" })
 
-export default useCustomRouter;
+export default router

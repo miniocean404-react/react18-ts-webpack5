@@ -1,9 +1,14 @@
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren, ReactNode } from "react"
 
-import useCustomRouter from "@/router";
+import { RouterProvider } from "react-router-dom"
+import router from "@/router"
 
 function App({ children }: PropsWithChildren<any>): ReactNode {
-  return useCustomRouter();
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  )
 }
 
-export default App;
+export default App
