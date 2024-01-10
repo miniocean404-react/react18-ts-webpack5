@@ -5,14 +5,7 @@ import Layout from "./layout/default"
 export default function App({ children }: PropsWithChildren<any>): ReactNode {
   return (
     <>
-      <ScrollRestoration
-        getKey={(location, matches) => {
-          return location.pathname
-        }}
-      />
-      <Layout>
-        <Outlet></Outlet>
-      </Layout>
+      <Layout></Layout>
     </>
   )
 }
