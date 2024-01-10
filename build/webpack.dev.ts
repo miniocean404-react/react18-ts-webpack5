@@ -3,14 +3,14 @@ import webpackPaths from "./webpack.paths";
 import { merge } from "webpack-merge";
 import baseConfig from "./webpack.base";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import "webpack-dev-server";
 
 const config: Configuration = merge(baseConfig, {
   mode: "development", // 开发模式,打包更加快速,省了代码优化步骤
   devtool: "source-map", // 源码调试模式,后面会讲
-
-  // @ts-ignore
   devServer: {
     port: 3000,
+    open: false,
     compress: false, // gzip压缩,开发环境不开启,提升热更新速度
     https: false,
     allowedHosts: "all",
@@ -49,7 +49,7 @@ const config: Configuration = merge(baseConfig, {
     },
     //端口连接时执行函数
     onListening: (devServer) => {
-      if (!devServer) throw new Error(`webpack-dev-server 没有定义端口 ${devServer.server.address().port}`);
+      if (!devServer) throw new Error(`webpack-dev-server 没有定义端口 ${devServer.server.address().toString()}`);
     },
     // proxy: {
     //   "/api": {
