@@ -3,6 +3,7 @@ import webpackPaths from "./webpack.paths";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import InterpolateHtmlPlugin from "interpolate-html-plugin";
 import Dotenv from "dotenv-webpack";
+import pkg from "../package.json";
 
 // 在开发环境我们希望css嵌入在style标签里面,方便样式热替换,但打包时我们希望把css单独抽离出来,方便配置缓存策略。
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -21,8 +22,14 @@ const config: Configuration = {
   cache: {
     type: "filesystem", // 使用文件缓存
     compression: "gzip",
+    version: pkg.version,
+    // 编译器闲置时候，将缓存数据都存放在一个文件中
+    store: "pack",
   },
-
+  // 是否展示基础日志
+  infrastructureLogging: {
+    level: "info",
+  },
   resolve: {
     // css js 都使用 @ 前缀引入
     alias: {
@@ -46,72 +53,82 @@ const config: Configuration = {
   },
 
   module: {
+    parser: {
+      javascript: {
+        // 当导入的名称在导入模块中不存在时，发出错误而不是警告
+        strictExportPresence: true,
+      },
+    },
     rules: [
       {
-        include: [webpackPaths.srcPath],
-        test: /\.[jt]sx?$/, // 匹配.ts, tsx文件
-        use: [
-          // 使用时,需将此 loader 放置在其他 loader 之前。放置在此 loader 之后的 loader 会在一个独立的 worker 池中运行。
-          // 由于thread-loader不支持抽离css插件MiniCssExtractPlugin.loader(下面会讲),所以这里只配置了多进程解析js,开启多线程也是需要启动时间,大约600ms左右,所以适合规模比较大的项目。
-          "thread-loader",
-          // 由于webpack默认只能识别js文件,不能识别jsx语法,需要配置loader的预设预设 @babel/preset-typescript 来先ts语法转换为 js 语法,再借助预设 @babel/preset-react 来识别jsx语法。
-          "babel-loader",
-        ],
-      },
-      {
-        include: [webpackPaths.srcPath],
-        test: /\.(sa|sc|c)ss$/,
-        use: [
-          // style-loader 将 css 插入到 head 中的 style 标签中
-          isDev ? "style-loader" : MiniCssExtractPlugin.loader,
-          { loader: "css-loader", options: { modules: true } },
-          "postcss-loader",
+        oneOf: [
           {
-            loader: "sass-loader",
-            options: {
-              sassOptions: {
-                includePaths: [],
+            include: [webpackPaths.srcPath],
+            test: /\.[jt]sx?$/, // 匹配.ts, tsx文件
+            use: [
+              // 使用时,需将此 loader 放置在其他 loader 之前。放置在此 loader 之后的 loader 会在一个独立的 worker 池中运行。
+              // 由于thread-loader不支持抽离css插件MiniCssExtractPlugin.loader(下面会讲),所以这里只配置了多进程解析js,开启多线程也是需要启动时间,大约600ms左右,所以适合规模比较大的项目。
+              "thread-loader",
+              // 由于webpack默认只能识别js文件,不能识别jsx语法,需要配置loader的预设预设 @babel/preset-typescript 来先ts语法转换为 js 语法,再借助预设 @babel/preset-react 来识别jsx语法。
+              "babel-loader",
+            ],
+          },
+          {
+            include: [webpackPaths.srcPath],
+            test: /\.(sa|sc|c)ss$/,
+            use: [
+              // style-loader 将 css 插入到 head 中的 style 标签中
+              isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+              { loader: "css-loader", options: { modules: true } },
+              "postcss-loader",
+              {
+                loader: "sass-loader",
+                options: {
+                  sassOptions: {
+                    includePaths: [],
+                  },
+                  additionalData: `@use "@/css/device/device.mixin.scss" as *;`,
+                },
               },
-              additionalData: `@use "@/css/device/device.mixin.scss" as *;`,
+            ],
+          },
+          {
+            test: /\.(png|jpe?g|svg|gif|webp)(\?.*)?$/,
+            type: "asset",
+            parser: {
+              dataUrlCondition: {
+                maxSize: 10 * 1024, // 小于10kb转base64位
+              },
+            },
+            generator: {
+              filename: "static/images/[name].[contenthash:8][ext]", // 文件输出目录和命名
+            },
+          },
+          {
+            test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i, // 匹配字体图标文件
+            type: "asset/resource",
+            parser: {
+              dataUrlCondition: {
+                maxSize: 10 * 1024, // 小于10kb转base64位
+              },
+            },
+            generator: {
+              filename: "static/fonts/[name].[contenthash:8][ext]", // 文件输出目录和命名
+            },
+          },
+          {
+            test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/, // 匹配媒体文件
+            type: "asset/resource",
+            parser: {
+              dataUrlCondition: {
+                maxSize: 10 * 1024, // 小于10kb转base64位
+              },
+            },
+            generator: {
+              filename: "static/media/[name].[contenthash:8][ext]", // 文件输出目录和命名
             },
           },
         ],
-      },
-      {
-        test: /\.(png|jpe?g|svg|gif|webp)(\?.*)?$/,
-        type: "asset",
-        parser: {
-          dataUrlCondition: {
-            maxSize: 10 * 1024, // 小于10kb转base64位
-          },
-        },
-        generator: {
-          filename: "static/images/[name].[contenthash:8][ext]", // 文件输出目录和命名
-        },
-      },
-      {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i, // 匹配字体图标文件
-        type: "asset/resource",
-        parser: {
-          dataUrlCondition: {
-            maxSize: 10 * 1024, // 小于10kb转base64位
-          },
-        },
-        generator: {
-          filename: "static/fonts/[name].[contenthash:8][ext]", // 文件输出目录和命名
-        },
-      },
-      {
-        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/, // 匹配媒体文件
-        type: "asset/resource",
-        parser: {
-          dataUrlCondition: {
-            maxSize: 10 * 1024, // 小于10kb转base64位
-          },
-        },
-        generator: {
-          filename: "static/media/[name].[contenthash:8][ext]", // 文件输出目录和命名
-        },
       },
     ],
   },
@@ -121,6 +138,18 @@ const config: Configuration = {
       template: webpackPaths.htmlPath, // 模板取定义root节点的模板
       inject: true, // 自动注入静态资源
       title: "Webpack5+React",
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+      },
     }),
     // 替换 html 中的 %PUBLIC_URL%
     new InterpolateHtmlPlugin({

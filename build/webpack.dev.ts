@@ -1,4 +1,4 @@
-import webpack, { Configuration } from "webpack";
+import { Configuration } from "webpack";
 import webpackPaths from "./webpack.paths";
 import { merge } from "webpack-merge";
 import baseConfig from "./webpack.base";
@@ -9,6 +9,10 @@ const config: Configuration = merge(baseConfig, {
   mode: "development", // 开发模式,打包更加快速,省了代码优化步骤
   devtool: "source-map", // 源码调试模式,后面会讲
   stats: "errors-warnings",
+  output: {
+    // 包括模块的注释信息
+    pathinfo: true,
+  },
   devServer: {
     port: 3000,
     open: false,
@@ -66,8 +70,19 @@ const config: Configuration = merge(baseConfig, {
     // hot:true 只会生效 style-laoder 的热替换，并且修改App.tsx,浏览器会自动刷新后再显示修改后的内容
     // ReactRefreshWebpackPlugin 是在不需要刷新浏览器的前提下模块热更新,并且能够保留react组件的状态。
     // ReactRefreshWebpackPlugin 需要配合 react-refresh/babel 实现
-    new ReactRefreshWebpackPlugin(), // 添加热更新插件
+    new ReactRefreshWebpackPlugin({ overlay: false }), // 添加热更新插件
   ],
+  module: {
+    rules: [
+      // 处理包含源映射的node_modules包
+      {
+        enforce: "pre",
+        exclude: /@babel(?:\/|\\{1,2})runtime/,
+        test: /\.(js|mjs|jsx|ts|tsx|css)$/,
+        loader: require.resolve("source-map-loader"),
+      },
+    ],
+  },
 });
 
 export default config;

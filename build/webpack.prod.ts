@@ -18,6 +18,10 @@ import TerserPlugin from "terser-webpack-plugin";
 const config: Configuration = merge(baseConfig, {
   // mode为production时就会默认开启tree-shaking
   mode: "production",
+  // 关闭 webpack 性能优化建议
+  performance: false,
+  // 将第一个错误报告为硬错误，而不容忍他
+  bail: true,
   plugins: [
     // 复制文件插件
     new CopyPlugin({
@@ -55,6 +59,11 @@ const config: Configuration = merge(baseConfig, {
             drop_debugger: true, // 移除断点
             pure_funcs: ["console.log"], // 删除 console.log
           },
+          mangle: {
+            safari10: true,
+          },
+          keep_classnames: true,
+          keep_fnames: true,
         },
       }),
     ],
