@@ -38,5 +38,5 @@
     // 开启装饰器使用
     "experimentalDecorators": true
   },
-  "include": ["./src", "./build"]
+  "include": ["./src", "configs"]
 }

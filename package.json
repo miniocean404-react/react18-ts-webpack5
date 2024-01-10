@@ -5,12 +5,10 @@
   "main": "index.js",
   "types": "commonjs",
   "scripts": {
-    "dev:dev": "cross-env NODE_ENV=development  webpack-dev-server -c build/webpack.dev.ts",
-    "dev:prod": "cross-env NODE_ENV=development  webpack-dev-server -c build/webpack.dev.ts",
-    "build:dev": "cross-env NODE_ENV=production  webpack -c build/webpack.prod.ts",
-    "build:prod": "cross-env NODE_ENV=production webpack -c build/webpack.prod.ts",
+    "dev:dev": "cross-env NODE_ENV=development  webpack-dev-server -c configs/webpack.dev.ts",
+    "build:prod": "cross-env NODE_ENV=production webpack -c configs/webpack.prod.ts",
     "preview": "serve -s dist",
-    "build:analy": "cross-env NODE_ENV=production  webpack -c build/webpack.analy.ts"
+    "build:analy": "cross-env NODE_ENV=production  webpack -c configs/webpack.analy.ts"
   },
   "keywords": [],
   "author": "",
