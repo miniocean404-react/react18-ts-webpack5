@@ -53,6 +53,10 @@ const config: Configuration = {
     publicPath: "/", // 打包后文件的公共前缀路径
   },
 
+  resolveLoader: {
+    //  找 loader 的时候，先去 loaders 目录下找，找不到再去 node_modules 下面找
+    modules: ["node_modules"],
+  },
   module: {
     parser: {
       javascript: {
