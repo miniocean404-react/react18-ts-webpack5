@@ -27,12 +27,13 @@ const config: Configuration = merge(baseConfig, {
     },
     // webpack5 只要devServer.hot 为 true, webpack5 已经内置了 HotModuleReplacementPlugin ,webpack4 需要添加该插件
     hot: true, // 开启热更新，后面会讲react模块热替换具体配置
-    // 监听文件
+    // 监听文件，刷新页面，watchFiles 针对的是 liveReload ,与 hot 冲突
+    liveReload: false,
     watchFiles: {
       paths: ["src/**/*", "public/**/*"],
       options: {
         usePolling: true, // 是否轮询
-        ignored: "/node_modules/", // 忽略监视的文件
+        ignored: paths.nodeModulesPath, // 忽略监视的文件
       },
     },
     historyApiFallback: true, // 解决history路由404问题
@@ -40,7 +41,7 @@ const config: Configuration = merge(baseConfig, {
       directory: paths.publicPath, // 托管静态资源public文件夹
       publicPath: ["/"],
       watch: {
-        ignored: /^(?!D:\/soft\x2ddev\/code\/davinci\/camp\/src\/).+\/node_modules\//g,
+        ignored: /^(?!D:\/soft\x2ddev\/code\/camp\/src\/).+\/node_modules\//g,
       },
     },
     // 在浏览器中
