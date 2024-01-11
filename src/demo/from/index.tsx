@@ -1,27 +1,29 @@
 import styles from "./index.module.scss"
-import { Form, useFetcher, useRevalidator } from "react-router-dom"
+import { Form, useFetcher, useRevalidator, useSubmit } from "react-router-dom"
 import { useEffect } from "react"
 
 function FormPage() {
+  const submit = useSubmit()
+  // 触发某个路由的 action，并触发自己的 loader ，且并不会导航
   const fetcher = useFetcher({ key: "form-page" })
 
   // 重新校验数据
   let revalidator = useRevalidator()
 
   useEffect(() => {
-    revalidator.revalidate()
-  }, [fetcher])
-
-  const load = () => {
     if (fetcher.state === "idle" && !fetcher.data) {
-      fetcher.load("/demo/loader-action/2/2")
+      // fetcher.load("/demo/form")
     }
 
     console.log(fetcher)
-  }
+  }, [fetcher])
 
   const fetcherSubmit = () => {
-    fetcher.submit({ username: "mini", password: "123" }, { method: "POST", action: "/demo/loader-action/2/2", navigate: true })
+    fetcher.submit({ hook: "fetcher", action: "submit" }, { method: "POST", action: "/demo/loader-action/2/2" })
+  }
+
+  const handleUseSubmit = () => {
+    submit({ hook: "useSubmit", action: "submit" }, { method: "POST", action: "/demo/loader-action/2/2" })
   }
 
   return (
@@ -33,17 +35,10 @@ function FormPage() {
         <button type='submit'>Login</button>
       </Form>
 
-      <fetcher.Form method='POST'>
+      <fetcher.Form>
         <button onClick={fetcherSubmit}>fetcher.Form 表单</button>
-        <button onClick={load}>fetcher 加载</button>
+        <button onClick={handleUseSubmit}>useSubmit 表单</button>
       </fetcher.Form>
-
-      <h2>webpack5+react+ts</h2>
-      <p>受控组件</p>
-      <input type='text' value={1} onChange={() => {}} />
-      <br />
-      <p>非受控组件</p>
-      <input type='text' />
     </div>
   )
 }

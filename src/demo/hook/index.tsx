@@ -22,6 +22,8 @@ function Hook() {
   // 可以获取 Vue 的 params 但是这里是 state
   const location = useLocation()
 
+  // 在页面发生跳转，比如点击一个<Link/>或者提交发送一个表单数据，通过这个hook就可以对数据进行对应的处理
+  // 与 fetcher 类似
   const navigation = useNavigation()
 
   // 这个hooks返回当前的导航类型或者用户是如何来到当前页面的或者通过历史栈上的弹出、推送或替换action
@@ -68,6 +70,7 @@ function Hook() {
     console.log("navigation", navigation)
     console.log("navigationType", navigationType)
     console.log("demoData", demoData)
+
     // @ts-ignore
     // console.log(await variants.json())
   }
