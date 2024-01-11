@@ -6,6 +6,12 @@ react-router 文章：https://juejin.cn/post/7142675624321089566#heading-7
 1. webpack 搭建的 react + ts
 2. react-router-dom 的 demo
 
+## webpack
+
+### react-refresh 问题
+
+devServer.liveReload 是监听文件，刷新页面，watchFiles 针对的是 liveReload ,与 hot 冲突，会导致 react-refresh 刷新失效
+
 ### 合理配置打包文件 hash
 
 - hash：跟整个项目的构建相关,只要项目里有文件更改,整个项目构建的 hash 值都会更改,并且全部文件都共用相同的 hash 值
