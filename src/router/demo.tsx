@@ -3,7 +3,6 @@ import { Await, generatePath, json, redirect, RouteObject } from "react-router-d
 import DemoHome from "@/demo/home/index"
 import ErrorPage from "@/pages/error/index"
 import Hook from "@/demo/hook/index"
-import LoaderAndAction from "@/demo/loader-action/index"
 import FormPage from "@/demo/from/index"
 
 const demoRoute: RouteObject = {
@@ -30,34 +29,23 @@ const demoRoute: RouteObject = {
     {
       path: "form",
       id: "form",
-      loader: ({ params, request, context }) => {
-        console.log(request.text())
-
-        return { id: 1 }
-      },
-      element: <FormPage />,
-    },
-    {
-      path: "loader-action/:id/*",
       action: async ({ params, request }) => {
-        console.log("action-loaded")
-
         const formData = await request.formData()
 
         const hook = formData.get("hook")
         const action = formData.get("action")
 
-        return { id: "action", ...formData }
+        console.log("🚀 ~ form : ~ action:", hook)
+
+        return { id: "action", action, hook }
       },
       // 在路由导航完成之前执行，类似于vue router的路由前置守卫
       // 可以在 loader 及 action 中使用 redirect
       // loader 与 action 类似于 action 用于上传表单文件，而 loader 重新获取文件数据刷新界面
-      loader: ({ params, request }) => {
-        console.log("loader-loaded")
-
-        return json({ id: "loader" })
+      loader: ({ params, request, context }) => {
+        return { id: "loader" }
       },
-      element: <LoaderAndAction />,
+      element: <FormPage />,
     },
   ],
 }
