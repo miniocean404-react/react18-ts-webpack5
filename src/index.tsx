@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client"
 import reportWebVitals from "./reportWebVitals"
+import { Suspense } from "react"
 
 import { Provider } from "react-redux"
 import { PersistGate } from "redux-persist/integration/react"
@@ -9,7 +10,6 @@ import { RouterProvider } from "react-router-dom"
 import router from "@/router"
 
 import "./css/base/base.scss"
-import { Suspense } from "react"
 
 const root = document.getElementById("root")!
 

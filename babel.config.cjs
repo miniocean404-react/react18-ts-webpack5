@@ -1,5 +1,4 @@
-const isDEV = process.env.NODE_ENV === "development"; // 是否是开发模式
-
+const isDEV = process.env.NODE_ENV === "development" // 是否是开发模式
 // 官方 React 插件是 @babel/preset-react-app
 module.exports = {
   // 执行顺序由右往左,所以先处理ts,再处理jsx,最后再试一下babel转换为低版本语法
@@ -28,8 +27,7 @@ module.exports = {
   ],
   // babel 处理装饰器语法
   plugins: [
+    isDEV && [require.resolve("react-refresh/babel")], // 如果是开发模式,就启动react热更新插件
     ["@babel/plugin-proposal-decorators", { legacy: true }],
-
-    isDEV && require.resolve("react-refresh/babel"), // 如果是开发模式,就启动react热更新插件
   ].filter(Boolean), // 过滤空值,
-};
+}

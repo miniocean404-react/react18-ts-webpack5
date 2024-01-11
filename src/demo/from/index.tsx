@@ -3,7 +3,7 @@ import { Form, useFetcher, useRevalidator } from "react-router-dom"
 import { useEffect } from "react"
 
 function FormPage() {
-  const fetcher = useFetcher()
+  const fetcher = useFetcher({ key: "form-page" })
 
   // 重新校验数据
   let revalidator = useRevalidator()
@@ -21,7 +21,7 @@ function FormPage() {
   }
 
   const fetcherSubmit = () => {
-    fetcher.submit({ username: "mini", password: "123", idle: true }, { method: "POST", action: "/demo/loader-action/2/2" })
+    fetcher.submit({ username: "mini", password: "123" }, { method: "POST", action: "/demo/loader-action/2/2", navigate: true })
   }
 
   return (
@@ -37,6 +37,13 @@ function FormPage() {
         <button onClick={fetcherSubmit}>fetcher.Form 表单</button>
         <button onClick={load}>fetcher 加载</button>
       </fetcher.Form>
+
+      <h2>webpack5+react+ts</h2>
+      <p>受控组件</p>
+      <input type='text' value={1} onChange={() => {}} />
+      <br />
+      <p>非受控组件</p>
+      <input type='text' />
     </div>
   )
 }

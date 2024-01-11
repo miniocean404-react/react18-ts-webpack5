@@ -46,6 +46,7 @@ function Hook() {
     caseSensitive: true,
   })
 
+  // 获取已经激活的路由匹配项目
   const matches = useMatches()
 
   // 在用户导航离开之前将其保存下来

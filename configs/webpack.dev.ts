@@ -81,7 +81,7 @@ const config: Configuration = merge(baseConfig, {
         enforce: "pre",
         exclude: /@babel(?:\/|\\{1,2})runtime/,
         test: /\.(js|mjs|jsx|ts|tsx|css)$/,
-        loader: require.resolve("source-map-loader-action"),
+        loader: require.resolve("source-map-loader"),
       },
     ],
   },

@@ -15,6 +15,7 @@ const demoRoute: RouteObject = {
   errorElement: <ErrorPage />,
   children: [
     {
+      id: "hook",
       path: "hook/:id",
       element: (
         <Await resolve={json({ await: "await 值" })}>
