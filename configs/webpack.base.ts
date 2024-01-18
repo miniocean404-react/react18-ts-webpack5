@@ -108,7 +108,50 @@ const config: Configuration = {
             generator: {
               filename: "static/images/[name].[contenthash:8][ext]", // 文件输出目录和命名
             },
+            use: [
+              {
+                loader: "image-webpack-loader",
+                options: {
+                  gifsicle: {
+                    // gif图片压缩
+                    optimizationLevel: 3, // 选择1到3之间的优化级别
+                    interlaced: false, // 隔行扫描gif进行渐进式渲染
+                    // colors: 2 // 将每个输出GIF中不同颜色的数量减少到num或更少。数字必须介于2和256之间。
+                  },
+                  optipng: {
+                    // png
+                    optimizationLevel: 7, // 选择0到7之间的优化级别
+                  },
+                  mozjpeg: {
+                    // jpeg
+                    quality: 65, // 压缩质量，范围从0(最差)到100(最佳)。
+                  },
+                  pngquant: {
+                    // png
+                    quality: [0.65, 0.8], // Min和max是介于0(最差)到1(最佳)之间的数字，类似于JPEG。达到或超过最高质量所需的最少量的颜色。如果转换导致质量低于最低质量，图像将不会被保存。
+                    speed: 4, // 压缩速度，1(强力)到11(最快)
+                  },
+                  // 开启 webp，会把 jpg 和 png 图片压缩为 webp 格式
+                  webp: {
+                    quality: 75,
+                  },
+                  svgo: {
+                    // svg压缩
+                    plugins: [
+                      {
+                        name: "removeViewBox",
+                      },
+                      {
+                        name: "removeEmptyAttrs",
+                        active: false,
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
           },
+
           {
             test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i, // 匹配字体图标文件
             type: "asset/resource",
@@ -143,16 +186,17 @@ const config: Configuration = {
       template: paths.htmlPath, // 模板取定义root节点的模板
       inject: true, // 自动注入静态资源
       title: "Webpack5+React",
+      // minify，实际会使用另一个插件html-minifier-terser
       minify: {
-        removeComments: true,
-        collapseWhitespace: true,
+        removeComments: true, // 是否移除注释
+        collapseWhitespace: true, // 是否折叠空格
         removeRedundantAttributes: true,
         useShortDoctype: true,
         removeEmptyAttributes: true,
         removeStyleLinkTypeAttributes: true,
         keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
+        minifyJS: true, // 是否压缩 js
+        minifyCSS: true, // 是否压缩 css
         minifyURLs: true,
       },
     }),
