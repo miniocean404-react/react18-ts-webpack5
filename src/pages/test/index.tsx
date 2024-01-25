@@ -1,17 +1,17 @@
 import { useNavigate } from "react-router-dom"
 import styles from "./index.module.scss"
 
-function Home() {
+function Test() {
   const navigate = useNavigate()
 
   const jump = () => {
-    navigate("/test")
+    navigate("/")
   }
 
   return (
     <div className={styles.box} onClick={jump}>
-      home
+      Test
     </div>
   )
 }
-export default Home
+export default Test

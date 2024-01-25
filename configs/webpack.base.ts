@@ -84,7 +84,7 @@ const config: Configuration = {
             use: [
               // style-loader 将 css 插入到 head 中的 style 标签中
               isDev ? "style-loader" : MiniCssExtractPlugin.loader,
-              { loader: "css-loader", options: { modules: true } },
+              { loader: "css-loader", options: { modules: "local" } },
               "postcss-loader",
               {
                 loader: "sass-loader",

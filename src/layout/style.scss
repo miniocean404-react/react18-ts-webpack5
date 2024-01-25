@@ -1,0 +1,71 @@
+// style.less
+/* 路由前进时的入场/离场动画 */
+.forward-enter {
+  @extend .base-layout;
+  transform: translate3d(100vw, 0, 0);
+  z-index: 2;
+}
+
+.forward-enter-active {
+  @extend .base-layout;
+
+  transform: translate3d(0, 0, 0);
+  transition: all 500ms;
+  z-index: 2;
+}
+
+.forward-exit {
+  @extend .base-layout;
+
+  transform: translate3d(0, 0, 0);
+  z-index: 1;
+}
+
+.forward-exit-active {
+  @extend .base-layout;
+
+  transform: translate3d(-100vw, 0, 0);
+  transition: all 500ms;
+  z-index: 1;
+}
+
+/* 路由后退时的入场/离场动画 */
+.back-enter {
+  @extend .base-layout;
+
+  transform: translate3d(-100vw, 0, 0);
+  z-index: 1;
+}
+
+.back-enter-active {
+  @extend .base-layout;
+
+  transform: translate3d(0, 0, 0);
+  transition: all 500ms ease-out;
+  z-index: 1;
+}
+
+.back-exit {
+  @extend .base-layout;
+
+  transform: translate3d(0, 0, 0);
+  z-index: 2;
+}
+
+.back-exit-active {
+  @extend .base-layout;
+
+  transform: translate3d(100vw, 0, 0);
+  transition: all 500ms ease-out;
+  z-index: 2;
+}
+
+.base-layout {
+  position: fixed;
+}
+
+.test {
+  width: 30px;
+  height: 30px;
+  background-color: red;
+}
